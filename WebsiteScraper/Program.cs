@@ -2,9 +2,9 @@
 using System.Diagnostics;
 using HtmlAgilityPack;
 using WebsiteScraper.Card;
+using WebsiteScraper.DataStore;
 using WebsiteScraper.IntermediateData;
 using WebsiteScraper.PageHandler;
-using WebsiteScraper.Mongo;
 
 namespace WebsiteScraper
 {
@@ -102,21 +102,16 @@ namespace WebsiteScraper
                 allCardDetails.AddRange(RunIndividualHandler(cardLink.Url));
             }
 
-            foreach (CardDetails detail in allCardDetails)
-            {
-                CommonHelpers.SerializeToXML(detail);
-            }
+            StoreData(allCardDetails);
+        }
 
-            var mongoDb = MongoWrapper.GetMongoDatabase();
-            if(!mongoDb.CollectionExists("CardDetails"))
-            {
-                mongoDb.CreateCollection("CardDetails");
-            }
-            var mongoCollection = mongoDb.GetCollection("CardDetails");
-            foreach (CardDetails detail in allCardDetails)
-            {
-                mongoCollection.Save(detail.CreateBsonDocument());
-            }
+        private static void StoreData(List<CardDetails> allCardDetails)
+        {
+            var xmlStore = new XmlDataStore();
+            xmlStore.Write(allCardDetails);
+
+            var mongoStore = new MongoDbDataStore();
+            mongoStore.Write(allCardDetails);
         }
     }
 }

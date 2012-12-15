@@ -59,6 +59,9 @@
     <Compile Include="Card\CardFieldDataLink.cs" />
     <Compile Include="Card\CardFieldDataString.cs" />
     <Compile Include="Card\CardImageInfo.cs" />
+    <Compile Include="DataStore\IScraperDataStore.cs" />
+    <Compile Include="DataStore\MongoDbDataStore.cs" />
+    <Compile Include="DataStore\XmlDataStore.cs" />
     <Compile Include="ExtractHelpers\ExtractCardFieldFromNodeListHelper.cs" />
     <Compile Include="ExtractHelpers\ExtractCardLinkFromSetPageHtmlHelper.cs" />
     <Compile Include="ExtractHelpers\ExtractHelperBase.cs" />
